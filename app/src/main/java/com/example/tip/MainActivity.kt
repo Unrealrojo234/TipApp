@@ -8,15 +8,19 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
@@ -26,11 +30,13 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -75,9 +81,15 @@ fun Tip(modifier: Modifier = Modifier) {
     var tip by remember { mutableDoubleStateOf(0.0) }
     var hasError by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
+    var tipPercentage by remember {
+        mutableStateOf("")
+    }
+    var roundUp by remember {
+        mutableStateOf(false)
+    }
 
     Column(
-        modifier = Modifier
+        modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
         Card(
             modifier = modifier
@@ -125,12 +137,17 @@ fun Tip(modifier: Modifier = Modifier) {
                     errorMessage = ""
                     amountInput = newValue
                 },
-                label = { Text("Bill Amount") },
+                label = { Text("Bill Amount", style = TextStyle(
+                    color = Color.Gray
+                )) },
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Decimal,
-                    imeAction = ImeAction.Done
+                    imeAction = ImeAction.Next
                 ),
-                leadingIcon = { Text("$") },
+                leadingIcon = { Text("$", style = TextStyle(
+                    color = Color.Green
+                )
+                ) },
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -146,8 +163,56 @@ fun Tip(modifier: Modifier = Modifier) {
                 },
 
             )
+            
+            OutlinedTextField(
+                value = tipPercentage, 
+                onValueChange = {
+                    
+                },
+                singleLine = true,
+                modifier = Modifier
+                    .fillMaxWidth(),
+                label = { Text(text = "Tip Percentage",
+                    style = TextStyle(color = Color.Gray)
+                )},
+                leadingIcon = { Text(text = "%", style = TextStyle(
+                    color = Color.Cyan
+                )
+                )},
+                
+                colors = OutlinedTextFieldDefaults.colors(
+                    unfocusedBorderColor = colorResource(id = R.color.rebeccapurple),
+                    focusedBorderColor = colorResource(id = R.color.teal_200)
+                )
+            )
 
-            Spacer(modifier = Modifier.height(84.dp))
+
+            Card(modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = Color.Transparent)
+                ) {
+                Row (modifier = Modifier
+                    .padding(top = 48.dp)
+                    .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ){
+                    Text(
+                        text = "Round tip?",
+                        style = TextStyle(
+                            fontSize = 24.sp
+                        ),
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                    
+                    Switch(checked = roundUp, onCheckedChange ={
+                        roundUp = if(roundUp) false else true
+                    }, modifier = Modifier)
+
+
+                }
+            }
+
+            Spacer(modifier = Modifier.height(60.dp))
+
 
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -167,6 +232,8 @@ fun Tip(modifier: Modifier = Modifier) {
                     )
                 )
             }
+            
+            
 
             Spacer(modifier = Modifier.height(84.dp))
 
@@ -223,7 +290,6 @@ fun Tip(modifier: Modifier = Modifier) {
                     text = "Calculate",
                     style = TextStyle(
                         fontSize = 24.sp,
-                        color = colorResource(id = R.color.white)
                     )
                 )
             }
