@@ -57,6 +57,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tip.ui.theme.TipTheme
+import kotlin.math.ceil
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,6 +87,13 @@ fun Tip(modifier: Modifier = Modifier) {
     }
     var roundUp by remember {
         mutableStateOf(false)
+    }
+
+    var tipHasError by remember {
+        mutableStateOf(false)
+    }
+    var tipErrorMessage by remember {
+        mutableStateOf("")
     }
 
     Column(
@@ -167,9 +175,17 @@ fun Tip(modifier: Modifier = Modifier) {
             OutlinedTextField(
                 value = tipPercentage, 
                 onValueChange = {
-                    
+                    newValue ->
+
+                    tipPercentage = newValue
+                    tipHasError = false
+                    tipErrorMessage = ""
                 },
                 singleLine = true,
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done
+                ),
                 modifier = Modifier
                     .fillMaxWidth(),
                 label = { Text(text = "Tip Percentage",
@@ -179,10 +195,21 @@ fun Tip(modifier: Modifier = Modifier) {
                     color = Color.Cyan
                 )
                 )},
+
+                supportingText = {
+                    if(tipHasError){
+                        Text(
+                            text = tipErrorMessage,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                },
                 
                 colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedBorderColor = colorResource(id = R.color.rebeccapurple),
-                    focusedBorderColor = colorResource(id = R.color.teal_200)
+
+                    unfocusedBorderColor = if(tipHasError) Color.Red else colorResource(id = R.color.rebeccapurple),
+                    focusedBorderColor = if(tipHasError) Color.Red else colorResource(id = R.color.teal_200)
+
                 )
             )
 
@@ -250,11 +277,25 @@ fun Tip(modifier: Modifier = Modifier) {
                             return@OutlinedButton
                         }
 
+                        if(tipPercentage.isBlank()){
+                            tipHasError = true
+                            tipErrorMessage = "Please enter a tip percentage"
+                            return@OutlinedButton
+                        }
+
                         // Validate numeric input
                         val amount = amountInput.toDoubleOrNull()
+                        val tipAmount = tipPercentage.toDoubleOrNull()
+
                         if (amount == null) {
                             hasError = true
                             errorMessage = "Please enter a valid number"
+                            return@OutlinedButton
+                        }
+
+                        if(tipAmount == null){
+                            tipHasError = true
+                            tipErrorMessage = "Please enter a valid number"
                             return@OutlinedButton
                         }
 
@@ -262,6 +303,11 @@ fun Tip(modifier: Modifier = Modifier) {
                         if (amount < 0) {
                             hasError = true
                             errorMessage = "Amount cannot be negative"
+                            return@OutlinedButton
+                        }
+                        if(tipAmount < 0){
+                            tipHasError = true;
+                            tipErrorMessage = "Tip cannot be negative"
                             return@OutlinedButton
                         }
 
@@ -272,14 +318,28 @@ fun Tip(modifier: Modifier = Modifier) {
                             return@OutlinedButton
                         }
 
+                        if(tipAmount == 0.0){
+                            tipHasError = true;
+                            tipErrorMessage = "Tip must be greater than zero"
+                        }
+
                         // Calculate tip if all validations pass
-                        tip = amount * 0.15
+                            if(roundUp){
+                                tip = amount * (tipAmount/100)
+
+                                tip = ceil(tip)
+                            }else {
+                                tip = amount * (tipAmount / 100)
+                            }
+
                         hasError = false
                         errorMessage = ""
 
                     } catch (e: Exception) {
                         hasError = true
+                        tipHasError = true
                         errorMessage = "An error occurred. Please try again."
+                        tipErrorMessage = "An error occurred. Please try again."
                     }
                 },
                 shape = RoundedCornerShape(4.dp),
