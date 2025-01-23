@@ -14,8 +14,9 @@ The **Tip Calculator** is a simple Android application built using Jetpack Compo
 
 ## Screenshots
 
-![Screenshot 1](screenshots/screenshot1.png)
-![Screenshot 2](screenshots/screenshot2.png)
+<img src="https://github.com/user-attachments/assets/81d66ec1-5b1e-4945-91d4-c07a4823fe81" width="400"/>
+&nbsp;
+<img src="https://github.com/user-attachments/assets/3e893218-18fd-4e75-8f70-847488e85ea7" width="400" />
 
 ## Installation
 
