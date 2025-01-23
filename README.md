@@ -1,140 +1,96 @@
 # Tip Calculator App
 
-A simple and elegant tip calculator application built with Jetpack Compose. The app allows users to calculate a 15% tip based on their bill amount, featuring error handling and a clean user interface.
+## Overview
+
+The **Tip Calculator** is a simple Android application built using Jetpack Compose. It allows users to calculate the tip amount based on the bill amount and the desired tip percentage. The app also includes an option to round up the tip amount for convenience.
 
 ## Features
 
-- **Bill Amount Input**: User-friendly text field with currency symbol
-- **Automatic Tip Calculation**: Calculates 15% tip instantly
-- **Input Validation**: Comprehensive error handling for:
-  - Empty inputs
-  - Invalid numbers
-  - Negative amounts
-  - Zero amounts
-- **Visual Feedback**: Clear error messages and styled UI elements
-- **Custom Styling**: Custom colors and borders using Material Design 3
+- **Bill Amount Input**: Enter the total bill amount.
+- **Tip Percentage Input**: Specify the desired tip percentage.
+- **Round Up Option**: Toggle to round up the calculated tip amount.
+- **Error Handling**: Validates input to ensure valid and positive numbers are entered.
+- **Responsive UI**: Built with Jetpack Compose for a modern and responsive user interface.
 
-## Project Configuration
+## Screenshots
 
-### Build Configuration
-```gradle
-plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
-}
+![Screenshot 1](screenshots/screenshot1.png)
+![Screenshot 2](screenshots/screenshot2.png)
 
-android {
-    namespace = "com.example.tip"
-    compileSdk = 35
+## Installation
 
-    defaultConfig {
-        applicationId = "com.example.tip"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-    }
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/Unrealrojo234/TipApp
+   ```
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
+2. **Open the Project**:
+   - Open Android Studio.
+   - Select `Open an existing Android Studio project`.
+   - Navigate to the cloned repository and select the `tip-calculator` folder.
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
+3. **Run the App**:
+   - Connect an Android device or start an emulator.
+   - Click on the `Run` button in Android Studio to build and run the app.
 
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+## Usage
 
-    buildFeatures {
-        compose = true
-    }
+1. **Enter Bill Amount**:
+   - Input the total bill amount in the provided field.
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
-}
-```
+2. **Enter Tip Percentage**:
+   - Specify the desired tip percentage.
 
-### Dependencies
-```gradle
-dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
-}
-```
+3. **Round Up Tip (Optional)**:
+   - Toggle the switch to round up the tip amount if desired.
 
-## UI Components
+4. **Calculate Tip**:
+   - Press the `Calculate` button to compute the tip amount.
 
-### Header
-- Custom styled header card
-- App title
-- Donald Duck image for visual appeal
+5. **View Result**:
+   - The calculated tip amount will be displayed below the button.
 
-### Input Section
-- Outlined text field with custom styling
-- Currency symbol ($) leading icon
-- Decimal keyboard type
-- Input validation with error messages
+## Code Structure
 
-### Display Section
-- Tip amount display with custom formatting
-- Styled amount display for better visibility
+- **MainActivity.kt**: The main activity that sets up the UI using Jetpack Compose.
+- **Tip.kt**: The composable function that defines the UI and logic for the tip calculator.
 
-### Calculate Button
-- Outlined button with custom styling
-- Error handling and validation on click
+### Key Components
 
-## Technical Details
+- **OutlinedTextField**: Used for input fields for bill amount and tip percentage.
+- **Switch**: Allows users to toggle the round-up option.
+- **Card**: Used to group and style UI elements.
+- **Button**: Triggers the tip calculation.
+- **Text**: Displays the calculated tip amount and error messages.
 
-### State Management
-- `amountInput`: String state for text field input
-- `tip`: Double state for calculated tip amount
-- `hasError`: Boolean state for error tracking
-- `errorMessage`: String state for error message display
+## Dependencies
 
-### Error Handling
-The app validates:
-1. Empty inputs
-2. Non-numeric values
-3. Negative amounts
-4. Zero amounts
-5. General exceptions
+- **Jetpack Compose**: Modern UI toolkit for building native Android UI.
+- **Material Design**: Provides Material Design components and theming.
 
-## System Requirements
-- Minimum SDK: 24 (Android 7.0)
-- Target SDK: 34 (Android 14)
-- Compile SDK: 35
-- Kotlin Version: Compatible with JVM 1.8
+## Contributing
 
-## Future Improvements
-- Add customizable tip percentages
-- Include bill splitting functionality
-- Add dark mode support
-- Save previous calculations
-- Add total amount calculation (bill + tip)
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/YourFeatureName`).
+3. Commit your changes (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature/YourFeatureName`).
+5. Open a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Jetpack Compose documentation.
+- Android Developers community.
+
+## Contact
+
+For any questions or feedback, please contact [otienoryan812@gmail.com](mailto:otienoryan812@gmail.com).
+
+---
+
+Enjoy calculating your tips with ease! 🎉
